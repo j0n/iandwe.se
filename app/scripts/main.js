@@ -9,9 +9,9 @@ var svg = d3.select("body")
 var dataset = [ 5 ];
 var leafData = [
     {
-        x: 141.5, 
-        y: 0, 
-        type: 'mirrored'
+        x: 163.93,
+        y: 464,
+        type: 'disconnected'
     },
     {
         x: 283, 
@@ -19,18 +19,18 @@ var leafData = [
         type: 'disconnected'
     }, 
     {
-        x: 163.93,
-        y: 464,
+        x: 141.5, 
+        y: 0, 
+        type: 'mirrored'
+    },
+    {
+        x: 0,
+        y: 177.42,
         type: 'disconnected'
     },
     {
         x: 120.3,
         y: 464,
-        type: 'disconnected'
-    },
-    {
-        x: 0,
-        y: 177.42,
         type: 'disconnected'
     }
 ]
@@ -47,6 +47,7 @@ var straight = d3.svg.line()
                      .interpolate("cardinal-closed")
                      .x(function(d,i) { return d.x; })
                      .y(function(d,i) { return d.y; });
+/*
 var test = function(d) {
     dataset.push(45);
     d3.select(this)
@@ -69,42 +70,89 @@ var add = function() {
         .attr("d", lineFunction(dataset))
         .each('end', test)
 }
+*/
 //add();
 //add(); add(); add(); add();
 //
 
+                     /*
 var data = d3.range(10).map(function(i) {
   return {x: i * 9, y: 100 *  (Math.sin(i * 2) + 1) / 2};
-  });
+});
+*/
+
+var color = d3.scale.category20();
 
 var g = svg.append('g');
-var makeLeaf = function(index, leaf) {
-    var p = g.append("path")
-        .data([0.6, 0.2, 0.4, 0.6, 0.8, 1])
-        .attr("d", function(d) { console.log('d', d); return straight.tension(d)(leaf)})
-        .attr('fill', 'white')
+var indexes = [];
+var opacities = [];
+var groups = [];
+var makeLeaf = function(index, leafD) {
+    var fix = 0
+    var t = indexes[index] || 0.6;
+    var opacity = opacities[index] || 1;
+    opacities[index] = opacity;// - 0.4;
+    indexes[index] = t + (Math.random()*0.9) ;
+    var group;
+    if (groups[index]) {
+        group = groups[index];
+    }
+    else { 
+        group = g.append('g');
+        group.attr('transform', 'rotate(' + (51*index) + ', 140, 535)');
+        groups[index] = group
+    }
+
+    var p = group.append("path")
+        .data([t, t, t, t, t])
+        .attr("d", function(d) {
+            var a = (Math.round(Math.random() * 3)/30) + d;
+            return straight.tension(a)(leafD)})
         .style({
-            "stroke": d3.interpolateRgb("brown", "steelblue"),
-            "transform": "rotate("+(index * 51.3)+"deg)"
+            "stroke": 'black',
+            "opacity" : opacity
         })
+        .attr('fill', 'rgba(0,0,0,0)')
+        .attr('stroke-dasharray', function() { return (this.getTotalLength() + fix) +  " " + (this.getTotalLength() + fix); })
+        .attr('stroke-dashoffset', function() { return this.getTotalLength() + fix; })
         .transition()
         .duration(3000)
-        .attrTween('d', pathTween)
-        .attr("d", function(d) { console.log('d', d); return straight.tension(0.1)(leaf)})
+
+        //.attr("d", function(d) { console.log('d', d); return straight.tension(0.1)(leafD)})
+        .attr("stroke-dashoffset", 0)
+        //.attr("d", function(d) { console.log('d', d); return straight.tension(2.5)(leaf)})
+        /*
         .transition()
         .duration(3000)
-        .attr("d", function(d) { console.log('d', d); return straight.tension(0.8)(leaf)})
-        .attr('fill', 'green')
-        .attr('stroke', 'white')
-    console.log(p);
+        .attr('stroke-dasharray', function() { console.log(this, 2, this.getTotalLength()); return (this.getTotalLength()) +  " " + (this.getTotalLength()); })
+        .attr('stroke-dashoffset', function() { return this.getTotalLength(); })
+        .transition()
+        .duration(3000)
+        */
+    //cjconsole.log('before', p.node().getTotalLength());
+        setTimeout(function() {
+    //console.log('yo', p.node().getTotalLength());
+        }, 4000)
+        //console.log(1,p);
 }
 
-for (var i = 0; i < 7; i++) {
-    var myData = leafData;
-    for (var j = 0, jj = myData.length; j < jj; j++) {
-        //myData[j].x += 100
-    }
-    makeLeaf(i, myData);
+var kick = function(index, data) {
+    console.log('index', index);
+    console.log('data', data[0]);
+    makeLeaf(Math.round((index-2)/4), data);
+}
+for (var i = 0; i < 28; i++) {
+    (function() {
+        var myData = JSON.parse(JSON.stringify(leafData));
+        for (var j = 0,jj = leafData.length; j < jj; j++) {
+            //leafData[j].x += 100;
+            console.log(j, leafData[j]);
+        }
+        (function(a, data) {
+            setTimeout(function() {kick(a, data)}, i * 1500)
+        })(i, JSON.parse(JSON.stringify(leafData)))
+
+    })()
 }
 function pathTween() {
         var interpolate = d3.scale.quantile()

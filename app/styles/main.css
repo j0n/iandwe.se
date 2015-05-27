@@ -2,12 +2,10 @@ body {
     padding: 0;
     margin: 0;
 }
-svg g {
+svg > g {
     transform: translate(300px, 40px) scale(0.4);
 }
-svg path {
-    transform-origin: 50% 100%;
-}
+
 /*
 svg path {
     transform: rotate(0deg);
