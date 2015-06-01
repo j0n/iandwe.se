@@ -1,9 +1,43 @@
 var d3 = require('d3');
-var svg = d3.select("body")
-            .append("svg")
-            .attr("width", "100%")
-            .attr("height", "100%");
-
+var svg = d3.select("svg")
+var io = require('socket.io-client');
+var socket = io('http://tuneset.com:3000');
+var leaf = require('./lib/leaf.js');
+socket.on('all', function(data){
+    console.log('all', data);
+    leaf.drawFlower(data, 0);
+});
+socket.on('log', function(data) {
+    console.log('log', data);
+});
+socket.on('mail', function(data){
+    leaf.drawLeaf(data);
+    console.log('event', data);
+});
+socket.on('disconnect', function(){});
+var mails = [
+    {
+        size: 0.2
+    },
+    {
+        size: 1.1
+    },
+    {
+        size: 0.4
+    },
+    {
+        size: 1.05
+    },
+    {
+        size: 0.8
+    },
+    {
+        size: 1
+    },
+    {
+        size: 1
+    },
+]
             
 
 var dataset = [ 5 ];
@@ -86,20 +120,20 @@ var color = d3.scale.category20();
 var g = svg.append('g');
 var indexes = [];
 var opacities = [];
-var groups = [];
-var makeLeaf = function(index, leafD) {
+var makeLeaf = function(index, leafD, percent) {
     var fix = 0
     var t = indexes[index] || 0.6;
     var opacity = opacities[index] || 1;
     opacities[index] = opacity;// - 0.4;
-    indexes[index] = t + (Math.random()*0.9) ;
+    indexes[index] = t;// + (Math.random()*0.1) ;
     var group;
     if (groups[index]) {
         group = groups[index];
     }
     else { 
         group = g.append('g');
-        group.attr('transform', 'rotate(' + (51*index) + ', 140, 535)');
+        var rotate = 140;//percent * 140;
+        group.attr('transform', 'rotate(' + (51*index) + ', '+rotate+', 535)');
         groups[index] = group
     }
 
@@ -116,49 +150,38 @@ var makeLeaf = function(index, leafD) {
         .attr('stroke-dasharray', function() { return (this.getTotalLength() + fix) +  " " + (this.getTotalLength() + fix); })
         .attr('stroke-dashoffset', function() { return this.getTotalLength() + fix; })
         .transition()
-        .duration(3000)
-
-        //.attr("d", function(d) { console.log('d', d); return straight.tension(0.1)(leafD)})
+        .duration(2000)
         .attr("stroke-dashoffset", 0)
-        //.attr("d", function(d) { console.log('d', d); return straight.tension(2.5)(leaf)})
-        /*
-        .transition()
-        .duration(3000)
-        .attr('stroke-dasharray', function() { console.log(this, 2, this.getTotalLength()); return (this.getTotalLength()) +  " " + (this.getTotalLength()); })
-        .attr('stroke-dashoffset', function() { return this.getTotalLength(); })
-        .transition()
-        .duration(3000)
-        */
-    //cjconsole.log('before', p.node().getTotalLength());
-        setTimeout(function() {
-    //console.log('yo', p.node().getTotalLength());
-        }, 4000)
-        //console.log(1,p);
 }
 
-var kick = function(index, data) {
-    console.log('index', index);
-    console.log('data', data[0]);
-    makeLeaf(Math.round((index-2)/4), data);
+var kick = function(index, data, percent) {
+    makeLeaf(Math.floor(index/6), data, percent);
 }
-for (var i = 0; i < 28; i++) {
+/*
+for (var i = 0; i < 42; i++) {
     (function() {
         var myData = JSON.parse(JSON.stringify(leafData));
-        for (var j = 0,jj = leafData.length; j < jj; j++) {
-            //leafData[j].x += 100;
-            console.log(j, leafData[j]);
+        var size = 1 - mails[(Math.floor(i/6))].size;// * 0.4);
+        var yCorrection = (myData[0].y - (myData[0].y * size));
+        for (var j = 0; j < myData.length; j++) {
+            if (j !== 0 && j !== 4){
+                if (myData[j].y == 0) {
+                    myData[j].y = myData[j].y - (size * 100)
+                }
+                else {
+                    myData[j].y = myData[j].y - (50 * size)
+                    if (myData[j].x === 0) {
+                        myData[j].x = myData[j].x - (35 * size)
+                    }
+                    else {
+                        myData[j].x = myData[j].x + (35 * size)
+                    }
+                }
+            }
         }
-        (function(a, data) {
-            setTimeout(function() {kick(a, data)}, i * 1500)
-        })(i, JSON.parse(JSON.stringify(leafData)))
-
+        (function(a, data, percent) {
+            setTimeout(function() {kick(a, data, percent)}, i * 700)
+        })(i, JSON.parse(JSON.stringify(myData)), size)
     })()
 }
-function pathTween() {
-        var interpolate = d3.scale.quantile()
-                        .domain([0,1])
-                                    .range(d3.range(1, data.length + 1));
-            return function(t) {
-                        return line(data.slice(0, interpolate(t)));
-                            };
-}
+*/

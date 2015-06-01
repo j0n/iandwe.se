@@ -1,11 +1,48 @@
 body {
     padding: 0;
     margin: 0;
+    background: #FFFBF5;
+}
+svg {
+    display: block;
+    margin: 0 auto;
+    width: 600px;
+    height: 600px;
 }
 svg > g {
-    transform: translate(300px, 40px) scale(0.4);
+    transform: translate(230px, 50px) scale(0.4);
+    transition: all ease 0.4s;
+}
+svg > g > g {
+}
+path:first-child {
+    fill: #FFFBF5;
+}
+svg > g > g path {
+    transition: transform ease 0.6s;
+    transform-origin: 50% 100%;
+}
+svg > g > g path:nth-child(2) {
+    transition: transform ease 0.8s;
+}
+svg > g > g path:nth-child(3) {
+    transition: transform ease 1s;
+}
+svg > g > g path:nth-child(4) {
+    transition: transform ease 1.2s;
+}
+svg > g > g path:nth-child(5) {
+    transition: transform ease 1.4s;
+}
+svg > g > g path:nth-child(5) {
+    transition: transform ease 1.6s;
+}
+svg > g > g:hover path {
+    transform: rotate(6deg);
 }
 
+.inner-group {
+}
 /*
 svg path {
     transform: rotate(0deg);
