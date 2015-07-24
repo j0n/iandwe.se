@@ -2,15 +2,33 @@ body {
     padding: 0;
     margin: 0;
     background: #FFFBF5;
+    color: #666;
+    text-align: center;
+}
+h1  {
+    font-weight: normal;
+    font-family: sans-serif;
+    margin-top: 30px;
+    text-align: center;
 }
 svg {
-    display: block;
-    margin: 0 auto;
-    width: 600px;
-    height: 600px;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: middle;
+    overflow: hidden;
 }
 svg > g {
-    transform: translate(230px, 50px) scale(0.4);
+    transform: translate(0px, 50px) scale(0.3);
     transition: all ease 0.4s;
 }
 svg > g > g {

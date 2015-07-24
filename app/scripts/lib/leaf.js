@@ -6,7 +6,8 @@ var straight = d3.svg.line()
 
 var svg = d3.select("svg")
 var g = svg.append('g');
-var rotate = 140;
+var push = 650;
+var rotate = push + 140;
 var groups =[];
 var amountOfLines = 6;
 var leafData = [
@@ -37,6 +38,10 @@ var leafData = [
     }
 ]
 module.exports = {
+    debug: function() {
+               console.log('debug');
+        this.drawFlower(leafData, 0);
+    },
     drawFlower: function(leafs, leafIndex) {
                     console.log(leafs[leafIndex]);
         if (typeof leafs[leafIndex] !== 'undefined') {
@@ -52,13 +57,14 @@ module.exports = {
             var size = 1 - data.value;
             var yCorrection = (myData[0].y - (myData[0].y * size));
             for (var j = 0; j < myData.length; j++) {
+                myData[j].x += push;
                 if (j !== 0 && j !== 4){
                     if (myData[j].y == 0) {
                         myData[j].y = myData[j].y - (size * 100)
                     }
                     else {
                         myData[j].y = myData[j].y - (50 * size)
-                        if (myData[j].x === 0) {
+                        if (myData[j].x === push) {
                             myData[j].x = myData[j].x - (35 * size)
                         }
                         else {
