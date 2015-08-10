@@ -4,14 +4,14 @@
   "description": "decoration art",
   "main": "index.js",
   "scripts": {
-    "build:css": "cssjoin app/styles/main.css | autoprefixer -b 'last 2 versions' | cssmin > dist/main.css",
+    "build:css": "cssjoin app/styles/main.css | autoprefixer -b 'last 2 versions' > dist/main.css",
     "build:html": "catw 'app/index.html' -o dist/index.html -v",
     "serve": "http-server -p 9999 dist/",
     "build:js": "browserify app/scripts/main.js | uglifyjs > dist/main.js",
     "watch:js": "watchify app/scripts/main.js -o dist/main.js -v --debug",
     "watch:css": "nodemon --watch app/styles/ -e css -x \"npm run build:css\"",
     "watch": "npm run serve & npm run watch:js & npm run build:html & npm run watch:css",
-    "build" : "npm run build:html & npm run build:js"
+    "build": "npm run build:html & npm run build:js"
   },
   "keywords": [
     "art",
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^5.1.0",
+    "browserify": "^11.0.0",
     "catw": "^0.2.0",
     "cssjoin": "^0.3.1",
     "cssmin": "^0.4.3",

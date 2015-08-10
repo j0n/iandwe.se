@@ -2,17 +2,69 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
         <link href="main.css" rel="stylesheet" />
     </head>
     <body>
         <h1>I And We</h1>
-        <p>
-            I And We is a creative technical studio based in Malmö, Sweden.<br />
-            Both doing production and prototype work for mobile and desktop.<br />
+        <div class="divider"> is </div>
+        <p class="wrapper">
+        a Malmö based “tech likes design” company. <br /> Need a prototype, a mobile application or site done with quality, just send an <a href="mailto:andersson.jon@gmail.com">email</a>
         </p>
+        <div class="divider is-long" style="margin-top: 30px;"> labs </div>
+        <h2><i>the</i><span>Pental project</span></h2>
         <div class="svg-container">
-            <svg></svg>
+            <svg id="main-svg"></svg>
+            <div class="flower-counter">Flower number 2 of 5</div>
         </div>
+        <div class="wrapper">
+            <div class="input-field">
+                <input placeholder="Enter your email..." type="email" id="email" /><a id="create-leaf" class="button">+ add pental</a>
+            </div>
+            <p>
+                The Pental project is an limited random digital to paper project. Each person that adds an pental gets and hand numberd printed poster of the version of that flower. Each pental gets unique based on the email and random factors.
+            </p>
+        </div>
+        <div class="divider is-long"> some clients </div>
+        <div class="clients wrapper">
+            <div class="client">
+                <img src="img/bauta.png" alt="bautafilm" />
+            </div>
+            <div class="client">
+                <img src="img/inuse.png" alt="inuse.se" />
+            </div>
+            <div class="client">
+                <img src="img/24hr.jpeg" alt="24hr" />
+            </div>
+        </div>
+        <footer class="contact">
+            <div class="divider is-long"> contact </div>
+            <div class="wrapper">
+                <div>
+                    <span>Email: </span>
+                    <a href="mailto:andersson.jon@gmail.com">andersson.jon@gmail.com</a>
+                </div>
+                <div>
+                    <span>Phone: </span>
+                    <a href="tel:+46702236879">+46702236879</a>
+                </div>
+                <div>
+                    <span>Org nr: </span>
+                    556925-1621
+                </div>
+            </div>
+            <div class="divider is-long"> x </div>
+        </footer>
     </body>
     <script src="main.js"></script>
+    <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                  ga('create', 'UA-357788-17', 'auto');
+                    ga('send', 'pageview');
+
+                </script>
 </html>
