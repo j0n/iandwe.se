@@ -4,7 +4,7 @@ var io = require('socket.io-client');
 var socketUrl = 'http://tuneset.com:3000';
 var socket = io(socketUrl);
 var leaf = require('./lib/leaf.js');
-var input; 
+var input;
 function addPental() {
     var email = input.value;
     var re = /\S+@\S+\.\S+/;
@@ -21,6 +21,12 @@ function addPental() {
     }
 }
 document.addEventListener('click', function() {
+    socket.emit('createFlower');
+});
+document.querySelector('.reload-anim').addEventListener('click', function(ev) {
+    leaf.hide();
+    ev.preventDefault();
+    return false;
 });
 function scrollTo(element, to, duration) {
     if (duration < 0) return;
@@ -44,11 +50,14 @@ window.onload = function() {
 }
 
 socket.on('connect', function() {
-    console.log('connected');
+    setTimeout(function() {
+        socket.emit('get', 'flower-9');
+        socket.on('all', function(data){
+            leaf.drawFlower(data, 0);
+        });
+    }, 500);
 });
-socket.on('all', function(data){
-    leaf.drawFlower(data, 0);
-});
+
 socket.on('full', function(data){
     alert('The flower is now full, next flower will be released tomorrow');
 });

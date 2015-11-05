@@ -69,7 +69,7 @@ svg {
     max-width: 800px;
     margin: 0 auto;
 }
-.flower-counter {
+.flower-counter, .reload-anim {
     border-radius: 50%;
     right: 2rem;
     bottom: 0rem;
@@ -78,7 +78,19 @@ svg {
     text-align: center;
     font-size: 0.7rem;
     font-weight: 300;
+    padding: 15px 0;
 }
+.reload-anim {
+    text-align: left;
+    position: absolute;
+    left: 2rem;
+    bottom: 0rem;
+    text-decoration: none;
+}
+.reload-anim:hover {
+    color: #000;
+}
+
 @media screen and (min-width: 500px) {
     svg {
         transform: scale(1.4);
@@ -184,11 +196,14 @@ footer {
 .clients {
     margin-top: 30px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .client {
     float: left;
-    margin: 10px 5px;
-    max-width: 110px;
+    margin: 10px 1.5%;
+    max-width: 30%;
 }
 .client img {
     max-width: 100%;
